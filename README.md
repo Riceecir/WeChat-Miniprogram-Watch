@@ -2,7 +2,7 @@
 微信小程序 watch 功能扩展 个人练手项目
 
 ## 说明
-创建实例时会对 Page 构造函数做出修改，如果 Page 构造函数有修改过则需要手动传入；
+创建实例时会对 Page 构造函数做出修改，如有特殊情况请手动传入
 
 ## 使用方法
 ### App
@@ -10,13 +10,13 @@
 返回 $watch 方法
 ``` Javascript
 const Watch = require('watch')
-new Watch(Page)
+new Watch()
 
 // 或者
 
 App({
   globalData: {
-    $watch: new Watch(Page)
+    $watch: new Watch(Page) // 传入 Page 构造函数
   }
 })
 ```
