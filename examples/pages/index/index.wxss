@@ -1,0 +1,4 @@
+/**index.wxss**/
+input {
+  border: 2rpx solid gray;
+}

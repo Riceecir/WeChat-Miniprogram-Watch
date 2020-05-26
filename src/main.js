@@ -1,13 +1,27 @@
 class Watch {
-  constructor () {
-    const $Page = Page
-    Page = function (options) {
-      if (options.watch) {
-        this.setWatch(options.data, options.watch)
-      }
+  constructor ($Page = Page) {
+    this.page = 
+    this.initPage($Page)
 
+    return this.initWatch.bind(this)
+  }
+
+  /* 对 Page 构造器进行改造 */
+  initPage ($Page) {
+    Page = options => {
+      options.$watch = this.initWatch.bind(this)
       return $Page(options)
     }
+  }
+
+  /* 初始化监听器 */
+  initWatch (data = null, watch = null) {
+    /* that: 调用监听回调函数时 this 指向页面栈最后一项 */
+    let pages = getCurrentPages();
+    this.page = pages[pages.length - 1];
+    if (data === null) data = this.page.data
+    if (watch === null) watch = this.page.watch
+    if (data !== null && watch !== null) this.setWatch(data, watch)
   }
 
   /** 设置watch属性监听
@@ -25,11 +39,9 @@ class Watch {
       this.observer(newData, newKey[newKey.length - 1], watch[key]);
     });
   }
-  
+
+  /* 监听 */
   observer (obj, key, callback) {
-    /* that: this 指向页面栈最后一项 */
-    let pages = getCurrentPages();
-    let that = pages[pages.length - 1];
     let val = obj[key];
     let oldVal = '';
     Object.defineProperty(obj, key, {
@@ -41,7 +53,7 @@ class Watch {
       set: function (value) {
         oldVal = val;
         val = value;
-        callback.call(that, value, oldVal);
+        callback.call(this.page, value, oldVal);
       }
     });
   }

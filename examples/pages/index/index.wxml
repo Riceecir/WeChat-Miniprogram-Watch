@@ -1,0 +1,7 @@
+<!--index.wxml-->
+<view class="container">
+  <label>
+    <span>输入内容触发监听器：</span>
+    <input type="text" bindinput="inputValue" />
+  </label>
+</view>
